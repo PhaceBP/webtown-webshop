@@ -14,6 +14,7 @@ import hu.webtown.webshop.model.Salami;
 import hu.webtown.webshop.model.TireDuck;
 import hu.webtown.webshop.service.ExchangeService;
 import hu.webtown.webshop.service.ShoppingService;
+import hu.webtown.webshop.service.Total;
 
 @Controller
 @RequestMapping("/order")
@@ -44,9 +45,9 @@ public class OrderController {
 		shoppingService.addProductToShoppingBasket(new Salami(), orderDTO.getNumOfSalami());
 		shoppingService.addProductToShoppingBasket(new TireDuck(), orderDTO.getNumOfTireDuck());
 
-		double totalPrice = shoppingService.calculateTotalPrice();
+		Total totalPrice = shoppingService.calculateTotalPrice();
 		
-		double totalPriceInEUR = exchangeService.exchangeHufToEur(totalPrice);
+		double totalPriceInEUR = exchangeService.exchangeHufToEur(totalPrice.getDiscountPrice());
 		
 		redirectAttributes.addFlashAttribute("totalPrice", totalPrice);
 		redirectAttributes.addFlashAttribute("totalPriceInEur", totalPriceInEUR);

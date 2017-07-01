@@ -15,16 +15,17 @@ import hu.webtown.webshop.model.Product;
 import hu.webtown.webshop.model.Salami;
 import hu.webtown.webshop.model.TireDuck;
 import hu.webtown.webshop.service.DiscountCalculatorStrategy;
+import hu.webtown.webshop.service.DiscountType;
 import hu.webtown.webshop.service.MegapackDiscountCalculatorStrategy;
 import hu.webtown.webshop.service.ShoppingService;
-import hu.webtown.webshop.service.TwoInOneDiscountCalculatorStrategy;
+import hu.webtown.webshop.service.ThreeForTwoPriceDiscountCalculatorStrategy;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring/application-config.xml")
 public class DiscountStrategyTest {
 
 	
-	private DiscountCalculatorStrategy twoInOneStrategy = new TwoInOneDiscountCalculatorStrategy();
+	private DiscountCalculatorStrategy twoInOneStrategy = new ThreeForTwoPriceDiscountCalculatorStrategy();
 	private DiscountCalculatorStrategy megapackStrategy = new MegapackDiscountCalculatorStrategy();
 	
 	@Autowired
@@ -41,13 +42,14 @@ public class DiscountStrategyTest {
 		System.out.println(twoInOneStrategy.calculateTotalPriceOfPurchase(orders));
 		System.out.println(megapackStrategy.calculateTotalPriceOfPurchase(orders));
 		
-		Assert.assertEquals(36400d, twoInOneStrategy.calculateTotalPriceOfPurchase(orders),0d);
-		Assert.assertEquals(50800d, megapackStrategy.calculateTotalPriceOfPurchase(orders),0d);
+		Assert.assertEquals(36400d, twoInOneStrategy.calculateTotalPriceOfPurchase(orders).getDiscountPrice(),0d);
+		Assert.assertEquals(50800d, megapackStrategy.calculateTotalPriceOfPurchase(orders).getDiscountPrice(),0d);
 
 		shoppingService.addProductToShoppingBasket(new Salami(), 10);
 		shoppingService.addProductToShoppingBasket(new Cucumber(), 11);
 
-		Assert.assertEquals(36400d,shoppingService.calculateTotalPrice(),0d);
+		Assert.assertEquals(36400d,shoppingService.calculateTotalPrice().getDiscountPrice(),0d);
+		Assert.assertEquals(DiscountType.THREE_FOR_TWO_PRICE,shoppingService.calculateTotalPrice().getDiscountType());
 	}
 	
 	@Test
@@ -62,13 +64,14 @@ public class DiscountStrategyTest {
 		System.out.println(twoInOneStrategy.calculateTotalPriceOfPurchase(orders));
 		System.out.println(megapackStrategy.calculateTotalPriceOfPurchase(orders));
 		
-		Assert.assertEquals(67600d, twoInOneStrategy.calculateTotalPriceOfPurchase(orders),0d);
-		Assert.assertEquals(84000d, megapackStrategy.calculateTotalPriceOfPurchase(orders),0d);
+		Assert.assertEquals(67600d, twoInOneStrategy.calculateTotalPriceOfPurchase(orders).getDiscountPrice(),0d);
+		Assert.assertEquals(84000d, megapackStrategy.calculateTotalPriceOfPurchase(orders).getDiscountPrice(),0d);
 
 		shoppingService.addProductToShoppingBasket(new Salami(), 10);
 		shoppingService.addProductToShoppingBasket(new Cucumber(), 25);
 		shoppingService.addProductToShoppingBasket(new TireDuck(), 2);
 
-		Assert.assertEquals(67600d,shoppingService.calculateTotalPrice(),0d);
+		Assert.assertEquals(67600d,shoppingService.calculateTotalPrice().getDiscountPrice(),0d);
+		Assert.assertEquals(DiscountType.THREE_FOR_TWO_PRICE,shoppingService.calculateTotalPrice().getDiscountType());
 	}
 }

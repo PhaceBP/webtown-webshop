@@ -6,5 +6,5 @@ public interface ShoppingService {
 
 	void addProductToShoppingBasket(Product product, int amount);
     
-    double calculateTotalPrice();
+    Total calculateTotalPrice();
 }

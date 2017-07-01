@@ -22,20 +22,20 @@ public class DefaultShoppingService implements ShoppingService {
 
 	@PostConstruct
 	public void init() {
-		DISCOUNT_CALCULATORS.add(new TwoInOneDiscountCalculatorStrategy());
+		DISCOUNT_CALCULATORS.add(new ThreeForTwoPriceDiscountCalculatorStrategy());
 		DISCOUNT_CALCULATORS.add(new MegapackDiscountCalculatorStrategy());
 	}
 
-	public double calculateTotalPrice() {
+	public Total calculateTotalPrice() {
 
-		double optimumPrice = DISCOUNT_CALCULATORS.get(0).calculateTotalPriceOfPurchase(BASKET);
+		Total optimumPrice = DISCOUNT_CALCULATORS.get(0).calculateTotalPriceOfPurchase(BASKET);
 
 		for (int i = 1; i < DISCOUNT_CALCULATORS.size(); i++) {
 
-			double tempPrice = DISCOUNT_CALCULATORS.get(i).calculateTotalPriceOfPurchase(BASKET);
+			Total tempTotal = DISCOUNT_CALCULATORS.get(i).calculateTotalPriceOfPurchase(BASKET);
 
-			if (tempPrice < optimumPrice) {
-				optimumPrice = tempPrice;
+			if (tempTotal.getDiscountPrice() < optimumPrice.getDiscountPrice()) {
+				optimumPrice = tempTotal;
 			}
 		}
 

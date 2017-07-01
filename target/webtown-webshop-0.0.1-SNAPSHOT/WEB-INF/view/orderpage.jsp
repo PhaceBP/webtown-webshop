@@ -13,8 +13,9 @@
 	<div align="center">
 
 		<c:if test="${not empty totalPrice}">
-			<h1>Total price is : ${totalPrice}</h1>
+			<h1>Total price is : ${totalPrice.discountPrice}</h1>
 			<h1>Total price in EUR is : ${totalPriceInEur}</h1>
+			<h1>Discount type is: ${totalPrice.discountType.discountName}</h1>
 		</c:if>
 		<form:form action="order" method="post" commandName="orderForm">
 			<table border="0">

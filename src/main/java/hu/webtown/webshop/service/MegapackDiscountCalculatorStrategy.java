@@ -4,6 +4,10 @@ import hu.webtown.webshop.model.Product;
 
 public class MegapackDiscountCalculatorStrategy extends AbstractDiscountCalculatorStrategy {
 
+	public MegapackDiscountCalculatorStrategy() {
+		super(DiscountType.MEGAPACK);
+	}
+
 	public double calculatePartPrice(Product p, int numOfOrderedProduct) {
 
 		double originalPrice = numOfOrderedProduct * p.getPrice();

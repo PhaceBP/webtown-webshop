@@ -6,7 +6,13 @@ import hu.webtown.webshop.model.Product;
 
 public abstract class AbstractDiscountCalculatorStrategy implements DiscountCalculatorStrategy {
 
-	public double calculateTotalPriceOfPurchase(Map<Product, Integer> products) {
+	protected DiscountType discountType;
+
+	protected AbstractDiscountCalculatorStrategy(DiscountType type) {
+		this.discountType = type;
+	}
+
+	public Total calculateTotalPriceOfPurchase(Map<Product, Integer> products) {
 
 		double totalPrice = 0;
 
@@ -15,6 +21,6 @@ public abstract class AbstractDiscountCalculatorStrategy implements DiscountCalc
 			totalPrice += calculatePartPrice(p, products.get(p));
 		}
 
-		return totalPrice;
+		return new Total(discountType, totalPrice);
 	}
 }
