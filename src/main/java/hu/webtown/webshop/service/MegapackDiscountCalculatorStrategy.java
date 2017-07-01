@@ -1,26 +1,20 @@
 package hu.webtown.webshop.service;
 
-import java.util.Map;
-
 import hu.webtown.webshop.model.Product;
 
-public class MegapackDiscountCalculatorStrategy implements DiscountCalculatorStrategy {
+public class MegapackDiscountCalculatorStrategy extends AbstractDiscountCalculatorStrategy {
 
-	public double calculateTotalPriceOfPurchase(Map<Product, Integer> products) {
+	public double calculatePartPrice(Product p, int numOfOrderedProduct) {
 
-		double totalPrice = 0;
+		double originalPrice = numOfOrderedProduct * p.getPrice();
 
-		for (Product p : products.keySet()) {
+		if (numOfOrderedProduct >= 12 && p.isMegapackEnabled()) {
 
-			totalPrice += calculatePartPrice(p, products.get(p));
+			int discountMultiplier = numOfOrderedProduct / 12;
+
+			return originalPrice - (discountMultiplier * 6000);
 		}
 
-		return totalPrice;
-	}
-
-	private double calculatePartPrice(Product p, int numOfOrderedProduct) {
-
-		return p.isMegapackEnabled() && numOfOrderedProduct >= 12 ? numOfOrderedProduct * p.getPrice() - 6000
-				: numOfOrderedProduct * p.getPrice();
+		return originalPrice;
 	}
 }
