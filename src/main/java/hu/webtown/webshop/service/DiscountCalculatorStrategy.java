@@ -1,12 +1,11 @@
 package hu.webtown.webshop.service;
 
-import java.util.Map;
-
+import hu.webtown.webshop.model.Basket;
 import hu.webtown.webshop.model.Product;
 
 public interface DiscountCalculatorStrategy {
 
-	Total calculateTotalPriceOfPurchase(Map<Product, Integer> products);
+	Total calculateTotalPriceOfPurchase(Basket b);
 	
 	double calculatePartPrice(Product p, int numOfOrderedProduct);
 }

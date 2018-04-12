@@ -12,12 +12,10 @@ public class ThreeForTwoPriceDiscountCalculatorStrategy extends AbstractDiscount
 
 		int discountMultiplier = numOfOrderedProduct / 3;
 
-		if (discountMultiplier > 0) {
-
+		if(p.isDiscountStrategySupported(ThreeForTwoPriceDiscountCalculatorStrategy.class) && discountMultiplier > 0) {
 			return (numOfOrderedProduct - discountMultiplier) * p.getPrice();
-		} else {
-
-			return numOfOrderedProduct * p.getPrice();
 		}
+		
+		return numOfOrderedProduct * p.getPrice();
 	}
 }

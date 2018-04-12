@@ -1,7 +1,6 @@
 package hu.webtown.webshop.service;
 
-import java.util.Map;
-
+import hu.webtown.webshop.model.Basket;
 import hu.webtown.webshop.model.Product;
 
 public abstract class AbstractDiscountCalculatorStrategy implements DiscountCalculatorStrategy {
@@ -12,15 +11,18 @@ public abstract class AbstractDiscountCalculatorStrategy implements DiscountCalc
 		this.discountType = type;
 	}
 
-	public Total calculateTotalPriceOfPurchase(Map<Product, Integer> products) {
+	public Total calculateTotalPriceOfPurchase(Basket b) {
 
 		double totalPrice = 0;
 
-		for (Product p : products.keySet()) {
+		for (Product p : b.getProductsFromBasket()) {
 
-			totalPrice += calculatePartPrice(p, products.get(p));
+			Integer amount = b.getAmountFromTheSpecifiedProduct(p);
+			totalPrice += calculatePartPrice(p, amount);
 		}
 
 		return new Total(discountType, totalPrice);
 	}
+	
+
 }

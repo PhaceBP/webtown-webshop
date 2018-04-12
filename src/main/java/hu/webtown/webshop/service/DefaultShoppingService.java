@@ -1,22 +1,21 @@
 package hu.webtown.webshop.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import hu.webtown.webshop.model.Basket;
 import hu.webtown.webshop.model.Product;
 
 @Service
 @Scope(value = "prototype")
 public class DefaultShoppingService implements ShoppingService {
 
-	private final Map<Product, Integer> BASKET = new HashMap<Product, Integer>();
+	private final Basket BASKET = new Basket();
 
 	private final List<DiscountCalculatorStrategy> DISCOUNT_CALCULATORS = new ArrayList<DiscountCalculatorStrategy>();
 
@@ -44,14 +43,6 @@ public class DefaultShoppingService implements ShoppingService {
 	}
 
 	public void addProductToShoppingBasket(Product product, int amount) {
-
-		Integer numOfAlreadyOrderedProduct = BASKET.get(product);
-
-		if (numOfAlreadyOrderedProduct == null) {
-			BASKET.put(product, amount);
-		} else {
-			BASKET.put(product, ++numOfAlreadyOrderedProduct);
-		}
-
+		BASKET.addProduct(product, amount);
 	}
 }

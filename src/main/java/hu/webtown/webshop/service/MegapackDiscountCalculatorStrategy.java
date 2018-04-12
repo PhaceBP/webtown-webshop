@@ -12,7 +12,7 @@ public class MegapackDiscountCalculatorStrategy extends AbstractDiscountCalculat
 
 		double originalPrice = numOfOrderedProduct * p.getPrice();
 
-		if (numOfOrderedProduct >= 12 && p.isMegapackEnabled()) {
+		if (numOfOrderedProduct >= 12 && p.isDiscountStrategySupported(MegapackDiscountCalculatorStrategy.class)) {
 
 			int discountMultiplier = numOfOrderedProduct / 12;
 
